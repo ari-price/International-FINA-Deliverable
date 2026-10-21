@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Citi in Brazil | FINA 405</title>
+<style>
+:root{--bg:#f7f8fa;--paper:#fff;--ink:#0b1f3a;--mute:#66728a;--line:#dde3ec;--navy:#0b1f3a;--blue:#0a4ea3;--green:#0f8a5f;--soft:#eef3fa}
+@media(prefers-color-scheme:dark){:root{--bg:#0b1320;--paper:#121c2e;--ink:#eaf0f9;--mute:#9aa8c0;--line:#24334c;--blue:#6aa9ff;--green:#3ccf97;--soft:#16233a}}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;transition:background .4s}
+body.dark{background:#07142a}
+#bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--green));width:0;transition:width .4s;z-index:20}
+/* fixed 1280x720 stage, scaled to fit any screen so every slide is one screen */
+.stage{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0}
+.slide{position:absolute;inset:0;padding:38px 56px 0;opacity:0;visibility:hidden;transform:translateX(24px);transition:opacity .45s,transform .45s,visibility .45s;overflow:hidden}
+.slide.on{opacity:1;visibility:visible;transform:none}.slide.past{transform:translateX(-24px)}
+.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--green);font-weight:700}
+h2{font:700 26px/1.18 Georgia,"Times New Roman",serif;margin:6px 0 0;max-width:1080px;min-height:62px}
+.ph{color:var(--mute);font-style:italic;font-weight:400}
+.rule{width:52px;height:3px;background:var(--green);margin:10px 0 16px;border-radius:2px}
+h3{margin:0 0 6px;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.stat .k{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--mute)}
+.stat .v{font:700 22px Georgia,serif;margin-top:2px}
+.row{display:grid;gap:12px}
+.sowhat{background:var(--navy);color:#fff;border:0;border-left:5px solid var(--green)}.sowhat h3{color:#9fe3c4}.sowhat .ph{color:#b9c6dc}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{padding:4px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{background:var(--soft);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute)}
+tr.tot td{font-weight:700;background:var(--soft)}
+.txt{font-size:12.5px;line-height:1.45}
+.row[style*="font-size:12px"] .txt{font-size:12px;line-height:1.4;padding:10px 14px}
+.eq{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--soft);border-radius:5px;padding:3px 8px;font-size:12px}
+.src{position:absolute;left:56px;right:56px;bottom:14px;font-size:10px;line-height:1.35;color:var(--mute)}
+.chartcard{padding:8px}.chartcard img{display:block;width:100%;border-radius:6px}
+/* cover */
+.cover{background:radial-gradient(circle at 80% 20%,#12457f 0,#0b1f3a 55%,#07142a 100%);color:#fff;display:flex;flex-direction:column;justify-content:center;padding-top:0}
+.cover h1{font:700 56px/1.1 Georgia,serif;margin:10px 0 0}.cover .rule{margin:20px 0}
+.ids{display:flex;gap:40px;margin:6px 0 28px}.ids .k{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#8fa3c4}.ids .v{font:20px Georgia,serif}
+.logos{display:flex;gap:16px;align-items:center;margin-bottom:10px}
+.badge{width:60px;height:60px;border-radius:14px;background:#fff;color:#0a4ea3;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
+.flag{font-size:42px;line-height:1}
+.members{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 28px;max-width:900px;font-size:13px;color:#d6e0f0}.members b{color:#fff;font-weight:600}
+/* chrome */
+.foot{position:fixed;left:0;right:0;bottom:0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 3vw;z-index:15;font-size:12px;color:var(--mute)}
+body.dark .foot{color:#8fa3c4}
+.dots{display:flex;gap:8px}.dots button{width:9px;height:9px;border-radius:50%;border:0;padding:0;background:var(--line);cursor:pointer;transition:.25s}
+.dots button.on{background:var(--green);transform:scale(1.35)}body.dark .dots button{background:#2c4166}body.dark .dots button.on{background:#3ccf97}
+.ctl{display:flex;gap:6px;align-items:center}
+.ctl button{background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:5px 11px;cursor:pointer;font:inherit}
+body.dark .ctl button{background:#12294a;color:#fff;border-color:#2c4166}
+.refs{font-size:12.5px;line-height:1.4}.refs p{margin:0 0 7px;word-break:break-all}
+.refs h3{margin:12px 0 6px}
+/* ===== Part 1 ===== */
+.c2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.c3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.c4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.c5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.p{font-size:13px;line-height:1.45;margin:8px 0 0}
+.big{font:700 30px Georgia,serif;margin-top:2px}
+.cap{font-size:11px;color:var(--mute);line-height:1.3;margin-top:2px}
+.bl{margin:6px 0 0;padding-left:18px;font-size:13px;line-height:1.45}.bl li{margin:0 0 5px}
+.link{border-left:5px solid var(--green)}
+.tk{position:absolute;left:56px;right:56px;bottom:40px;background:var(--navy);color:#fff;border-left:5px solid var(--green);border-radius:10px;padding:11px 16px;font-size:13.5px;line-height:1.4}
+.tk b{color:#9fe3c4;letter-spacing:.07em;text-transform:uppercase;font-size:10.5px;margin-right:10px}
+.tk.big2{font-size:14px}
+.step{display:flex;gap:12px;align-items:flex-start;font-size:13.5px;line-height:1.4;padding:12px 14px}
+.step .num{flex:none;width:26px;height:26px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:13px}
+.tag{display:inline-block;padding:1px 9px;border-radius:99px;color:#fff;font-size:11px;font-weight:700}.tag.High{background:#c0392b}.tag.Moderate{background:#d98200}.tag.Low{background:#0f8a5f}
+td.l,th.l{text-align:left;white-space:normal}
+tr.hl td{background:color-mix(in srgb,var(--blue) 12%,transparent);font-weight:700}
+.p1refs{columns:2;column-gap:36px;font-size:11.5px}.p1refs p{break-inside:avoid;word-break:break-word}
+
+.p1s .p,.p1s .bl{font-size:15px;line-height:1.5}.p1s .bl li{margin-bottom:8px}
+.p1s .stat .v{font-size:26px}.p1s .cap{font-size:12px}.p1s .big{font-size:36px}
+.p1s .step{font-size:15px;padding:15px 16px}
+.p1s table{font-size:13.5px}.p1s th,.p1s td{padding:6px 9px}
+.p1s .fill{height:var(--fillh,430px);align-items:stretch}
+.p1s .fill>.card,.p1s .fill>.row>.card:last-child{height:100%}
+.p1s .tk{font-size:14.5px;padding:13px 18px}
+
+.p1s .c4.fill>.card{display:flex;flex-direction:column;justify-content:center;padding:20px 22px}.p1s .c4.fill h3{margin-bottom:14px}.p1s .c4.fill .big{font-size:46px}.p1s .c4.fill .cap{font-size:13px}.p1s .c4.fill .p{font-size:16px;margin-top:18px}
+
+.p1s .fill>.row.steps{height:100%;grid-auto-rows:1fr;align-content:stretch!important}.p1s .step{align-items:center}
+
+.parts{display:flex;gap:28px;margin-top:26px;font-size:14px;color:#d6e0f0}.parts b{color:#7fe0b8;letter-spacing:.12em;text-transform:uppercase;font-size:11px;margin-right:8px}
+.divider .dsub{color:#b9c6dc;font-size:17px;max-width:720px;line-height:1.5;margin:0}
+.allrefs{columns:2;column-gap:36px;font-size:11.5px;line-height:1.4}.allrefs h3{break-after:avoid;margin:0 0 6px;column-span:none}.allrefs p{break-inside:avoid;word-break:break-word;margin:0 0 6px}.allrefs .grp{break-inside:avoid-column}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div class="stage" id="stage">
+<!-- ================= PART 1 (Deliverable 1, consolidated) ================= -->
+<section class="slide cover" data-title="Title" data-part="all">
+  <div class="logos"><div class="badge">citi</div><div class="flag">🇧🇷</div></div>
+  <div class="eyebrow" style="color:#7fe0b8">FINA 405 | International Financial Management</div>
+  <h1>Citigroup in Brazil:<br>Risk Profile &amp; Local-Currency Bond</h1><div class="rule"></div>
+  <div class="ids"><div><div class="k">Company</div><div class="v">Citigroup (Citi)</div></div><div><div class="k">Ticker</div><div class="v">C</div></div><div><div class="k">Country</div><div class="v">Brazil</div></div></div>
+  <div class="members" id="p1_members"></div>
+  <div class="parts"><span><b>Part 1</b> Company &amp; country risk</span><span><b>Part 2</b> BRL bond issuance</span></div>
+</section>
+
+<section class="slide p1s" data-title="Executive Summary" data-part="1">
+  <div class="eyebrow">Executive Summary</div>
+  <h2>Citi earns reais in Brazil, so its FX, interest rate and inflation risks all point to the same financing answer: borrow in BRL</h2><div class="rule"></div>
+  <div class="c4 fill">
+    <div class="card"><h3>Citi in Brazil</h3><div class="big">R$2.9B</div><div class="cap">2025 net profit, up 28%; ROE 22%</div><p class="p">Corporate and institutional bank since selling its consumer business in 2017.</p></div>
+    <div class="card"><h3>FX risk</h3><div class="big">$29.2B</div><div class="cap">Brazil exposure, 1.6% of Citi</div><p class="p">Net receiver of BRL: a weaker real cuts USD earnings and the USD value of net assets.</p></div>
+    <div class="card"><h3>Interest rate risk</h3><div class="big">13.75%</div><div class="cap">Selic; real rate 9.53%</div><p class="p">Expected to fall to 12% in 2027, lowering local funding costs.</p></div>
+    <div class="card"><h3>Inflation risk</h3><div class="big">4.22%</div><div class="cap">IPCA vs. a 4.5% ceiling</div><p class="p">Forecast 4.9% by December 2026, keeping rates high and feeding FX risk.</p></div>
+  </div>
+  <div class="tk link2"><b>→ Part 2</b>A BRL bond sized at 10% of long-term debt ($333.75B) creates a BRL liability against Citi's BRL assets. Part 2 prices it in reais and dollars and tests a 10% move in the real.</div>
+  <div class="src">Source: Citigroup Form 10-K FY2025; Citi Brazil market position and Brazil country overview (team research).</div>
+</section>
+
+<section class="slide p1s" data-title="Business Overview" data-part="1">
+  <div class="eyebrow">01 | Business Overview</div>
+  <h2>A global bank whose Brazilian business is institutional and fee-based, so it earns in reais</h2><div class="rule"></div>
+  <div class="c2 fill">
+    <div class="card"><h3>Citigroup, FY2025</h3>
+      <div class="c3"><div class="stat"><div class="k">Revenue</div><div class="v">$85.22B</div></div><div class="stat"><div class="k">Net income</div><div class="v">$14.31B</div></div><div class="stat"><div class="k">Profit margin</div><div class="v">16.79%</div></div></div>
+      <p class="p"><b>Five businesses:</b> Services, Markets, Banking, Wealth, U.S. Personal Banking.</p>
+      <p class="p"><b>Revenue drivers:</b> Services ($21.3B) and Markets ($22B) are the two largest segments, roughly half of revenue ($43.2B of $85.21B).</p></div>
+    <div class="card"><h3>Citi Brazil</h3>
+      <p class="p" style="margin-top:0"><b>Presence:</b> operating since 1915; sold its consumer business (branches, cards, personal loans, retail deposits) to Itaú Unibanco on October 31, 2017.</p>
+      <p class="p"><b>Clients:</b> corporate, institutional, commercial and ultra-high net worth.</p>
+      <p class="p"><b>Services:</b> cash management, FX, custody, derivatives, working-capital loans, trade finance and capital markets (bond issues, IPOs, M&amp;A advice).</p></div>
+  </div>
+  <div class="tk"><b>Why it matters</b>Citi's Brazilian cash flows are in reais. That is the source of its FX exposure, and the cash that could service a BRL bond.</div>
+  <div class="src">Source: Citigroup Form 10-K FY2025; Citi Brazil market position (team research).</div>
+</section>
+
+<section class="slide p1s" data-title="Market Position" data-part="1">
+  <div class="eyebrow">02 | Market Position &amp; Industry</div>
+  <h2>Small by assets, a leader in capital markets: Citi competes on fees in a concentrated, slowing credit market</h2><div class="rule"></div>
+  <div class="c5" style="margin-bottom:12px">
+    <div class="card stat"><div class="k">Net profit 2025</div><div class="v">R$2.9B</div><div class="cap">record, +28%</div></div>
+    <div class="card stat"><div class="k">ROE</div><div class="v">22%</div><div class="cap">18% in 2024</div></div>
+    <div class="card stat"><div class="k">Share of system assets</div><div class="v">~1.1%</div><div class="cap">R$193B of R$17.2T</div></div>
+    <div class="card stat"><div class="k">Intl. bond issues led</div><div class="v">22 of 35</div><div class="cap">~63%, US$24.6B</div></div>
+    <div class="card stat"><div class="k">Top five banks</div><div class="v">59%</div><div class="cap">of system assets</div></div>
+  </div>
+  <div class="c2 fill">
+    <div class="card"><h3>Total credit growth (%)</h3><div id="p1_credit"></div></div>
+    <div class="card"><h3>Industry structure</h3><ul class="bl">
+      <li><b>Growth:</b> corporate lending (Citi's segment) 8.2% vs. 9.7% for households in 2026</li>
+      <li><b>Cyclicality:</b> policy rate held at 15% (June 2025 to March 2026), cut to 13.75% by September 2026</li>
+      <li><b>Capital:</b> Basel III, applied by the BCB, ties lending to capital</li>
+      <li><b>Regulation:</b> CMN Resolution 4,966 requires earlier loan-loss provisions (from January 2025)</li></ul></div>
+  </div>
+  <div class="tk"><b>Why it matters</b>With credit growth slowing, Citi's growth depends on fee-based services (FX, cash management, capital markets), all of which generate BRL revenue.</div>
+  <div class="src">Source: Citi Brazil market position and industry overview (team research; Banco Central do Brasil projections).</div>
+</section>
+
+<section class="slide p1s" data-title="Financial Performance" data-part="1">
+  <div class="eyebrow">03 | Financial Statement Analysis, FY2023 to FY2025</div>
+  <h2>Profitability and efficiency improved every year, while long-term debt and leverage rose in FY2025</h2><div class="rule"></div>
+  <div class="row fill" style="grid-template-columns:640px 1fr">
+    <div class="card" style="padding:6px 10px" id="p1_fin"></div>
+    <div class="row" style="align-content:start">
+      <div class="card"><h3>Revenue vs. net income ($M)</h3><div id="p1_rev"></div></div>
+      <div class="card"><ul class="bl" style="margin:0">
+        <li>FY2025 was the most profitable year: margin 16.79%, up from 11.82% in 2023</li>
+        <li>D/E 1.732x in FY2025, the highest of the three years</li>
+        <li>Net Debt/EBITDA is not applicable to a bank</li></ul></div>
+    </div>
+  </div>
+  <div class="tk"><b>Why it matters</b>Debt is a growing part of Citi's funding, so where and in which currency it borrows matters, which leads to the bond in Part 2.</div>
+  <div class="src">Source: Citigroup Forms 10-K FY2023, FY2024 and FY2025 (USD millions).</div>
+</section>
+
+<section class="slide p1s" data-title="Peer Benchmarking" data-part="1">
+  <div class="eyebrow">04 | Peer Benchmarking, FY2025</div>
+  <h2>Citi trails peers on margin and ROA but holds the strongest capital ratio in the group</h2><div class="rule"></div>
+  <div class="row fill" style="grid-template-columns:1fr 1fr">
+    <div class="card" style="padding:6px 10px"><div id="p1_peer"></div><p class="cap" style="margin:8px 4px 2px">D/E uses narrow debt, following the 10-K.</p></div>
+    <div class="c2"><div class="card"><h3>Profit margin (%)</h3><div id="p1_pm"></div></div><div class="card"><h3>CET1 ratio (%)</h3><div id="p1_cet"></div></div>
+      <div class="card"><h3>ROA (%)</h3><div id="p1_roa"></div></div><div class="card"><h3>D/E ratio (x)</h3><div id="p1_de"></div></div></div>
+  </div>
+  <div class="tk"><b>Why it matters</b>Lower returns leave less room for FX losses, but a 13.18% CET1 ratio gives Citi the capital to carry Brazilian exposure.</div>
+  <div class="src">Source: Citi financial analysis; peers Bank of America, Goldman Sachs and Wells Fargo.</div>
+</section>
+
+<section class="slide p1s" data-title="FX Risk" data-part="1">
+  <div class="eyebrow">05 | FX Risk</div>
+  <h2>FX risk: as a net receiver of reais, Citi loses dollars when the real weakens</h2><div class="rule"></div>
+  <div class="row fill" style="grid-template-columns:1fr 430px">
+    <div class="row steps" style="align-content:start;gap:8px">
+      <div class="card step"><span class="num">1</span><div><b>Exposure.</b> Citi sold its Brazilian consumer branches; its business is mostly institutional, so it is a net receiver of BRL.</div></div>
+      <div class="card step"><span class="num">2</span><div><b>Earnings and assets.</b> A weaker real cuts USD earnings and the USD value of Brazilian net assets.</div></div>
+      <div class="card step"><span class="num">3</span><div><b>Ratios.</b> A weaker local currency shrinks equity without changing leverage, raising D/E.</div></div>
+      <div class="card step"><span class="num">4</span><div><b>Hedging cost.</b> BRL forward prices reflect the interest rate gap with the USD, which can lower returns.</div></div>
+    </div>
+    <div class="row" style="align-content:start">
+      <div class="c2"><div class="card stat"><div class="k">Brazil exposure, 4Q25</div><div class="v">$29.2B</div><div class="cap">$25.9B in 4Q24; 1.6% of Citi</div></div><div class="card stat"><div class="k">Of which loans</div><div class="v">$14.4B</div></div></div>
+      <div class="card stat"><div class="k">Firm-wide FX sensitivity (10-K)</div><div class="v">~$1.7B</div><div class="cap">fall in TCE from a 5% rise in the USD (1.0% of TCE)</div></div>
+      <div class="card stat"><div class="k">Regime</div><div class="v" style="font-size:18px">Floating</div><div class="cap">USD/BRL 5.1915</div></div>
+    </div>
+  </div>
+  <div class="tk link2"><b>→ Part 2</b>A BRL bond is a BRL liability: when the real weakens its USD cost falls, offsetting lower USD earnings. The FX sensitivity analysis tests a 10% move in the real.</div>
+  <div class="src">Source: Citigroup Form 10-K FY2025 (country exposure; FX sensitivity); Brazil country overview.</div>
+</section>
+
+<section class="slide p1s" data-title="Interest Rate & Inflation" data-part="1">
+  <div class="eyebrow">06 | Interest Rate &amp; Inflation Risk</div>
+  <h2>Rates are high but falling, and inflation above target could keep them high for longer</h2><div class="rule"></div>
+  <div class="c2 fill">
+    <div class="card"><h3>Interest rates: Selic (%)</h3><div id="p1_selic"></div>
+      <ul class="bl"><li>Real rate 9.53%, above the IMF neutral rate of 8% (target 5%)</li><li>Government yields 13.58% (1Y) to 14.20% (10Y)</li><li>Firm-wide, +100 bps adds $1,369M of net interest income (10-K)</li></ul></div>
+    <div class="card"><h3>Inflation: IPCA (%)</h3><div id="p1_infl"></div>
+      <ul class="bl"><li>Above the 4.5% ceiling, inflation keeps rates high, raising borrowing costs</li><li>The USD/BRL inflation gap feeds back into FX risk</li><li>Higher operating costs raise the efficiency ratio; credit losses rise</li></ul></div>
+  </div>
+  <div class="tk link2"><b>→ Part 2</b>High rates make BRL debt expensive today; as the Selic falls, local funding costs drop, benefiting local debt and D/E. The rate gap with the USD is what IRP forwards price.</div>
+  <div class="src">Source: Brazil country overview (Trading Economics; IMF Article IV, July 2026; investing.com; BCB market expectations); Citigroup Form 10-K FY2025.</div>
+</section>
+
+<section class="slide p1s" data-title="Country Risk" data-part="1">
+  <div class="eyebrow">07 | Country &amp; Sovereign Risk</div>
+  <h2>Fiscal sustainability is Brazil's main risk; strong external buffers limit the downside</h2><div class="rule"></div>
+  <div class="row fill" style="grid-template-columns:1.3fr 1fr">
+    <div class="card" style="padding:6px 10px" id="p1_risk"></div>
+    <div class="row" style="align-content:start">
+      <div class="card"><h3>Sovereign CDS spread by tenor (bps)</h3><div id="p1_cds"></div></div>
+      <div class="c2"><div class="card stat"><div class="k">Debt / GDP</div><div class="v">78.9%–81.5%</div></div><div class="card stat"><div class="k">Reserves / imports</div><div class="v">123.97%</div></div></div>
+    </div>
+  </div>
+  <div class="tk"><b>Why it matters</b>Fiscal risk keeps sovereign yields (14.20% at 10 years) and CDS (203 bps) high, which sets the floor for BRL borrowing costs.</div>
+  <div class="src">Source: Brazil country overview (IMF; Reuters; BNP Paribas; LSEG sovereign risk data).</div>
+</section>
+
+<section class="slide p1s" data-title="Why Issue in BRL" data-part="1">
+  <div class="eyebrow">08 | Why Issue Local Debt</div>
+  <h2>A BRL bond offsets Citi's BRL exposure, as long as its BRL cash flows can cover the payments</h2><div class="rule"></div>
+  <div class="row fill" style="grid-template-columns:1fr 1fr">
+    <div class="card" style="padding:6px 10px" id="p1_map"></div>
+    <div class="row" style="align-content:start;gap:10px">
+      <div class="card"><h3>Why it makes sense</h3><ul class="bl"><li><b>Natural hedge:</b> Citi Brazil funds with BRL deposits and lends in BRL, so BRL borrowing adds little new currency risk</li><li><b>Cash-flow match:</b> excess BRL operating cash flow can pay the semiannual coupon and principal without buying reais</li></ul></div>
+      <div class="card"><h3>What Part 2 must show</h3><ul class="bl"><li>Whether Citi receives enough reais to cover coupons and principal</li><li>The bond's price in BRL and USD, and its sensitivity to the real</li></ul></div>
+    </div>
+  </div>
+  <div class="tk big2"><b>So what</b>These risks are extremely important to financing firm because the more established within a country a bank becomes the harder it is to pull out of a risky country due to instability. These are all things to take into consideration in the long term.</div>
+  <div class="src">Source: Citi FX and currency risk assessment; Citi business overview; industry overview (team research).</div>
+</section>
+
+
+
+
+<!-- 1 COVER -->
+<section class="slide cover divider" data-title="Part 2: Bond Issuance" data-part="2">
+  <div class="logos"><div class="badge">citi</div><div class="flag">🇧🇷</div></div>
+  <div class="eyebrow" style="color:#7fe0b8">Part 2 | Deliverable 2</div>
+  <h1>Bond Issuance:<br>Citigroup in Brazil</h1><div class="rule"></div>
+  <p class="dsub">Bond issuance summary, Scenario 0 market data, local currency pricing and YTM, USD pricing via IRP forwards, and FX sensitivity.</p>
+  <div style="display:none"><div id="coName"></div><div id="coTicker"></div><div id="coCountry"></div><div id="members"></div></div>
+</section>
+
+<!-- 2 BOND ISSUANCE SUMMARY (left for the team to write) -->
+<section class="slide" data-title="Bond Issuance Summary">
+  <div class="eyebrow">01 | Bond Issuance Summary</div>
+  <h2 id="hBond"></h2><div class="rule"></div>
+  <div class="row" style="grid-template-columns:600px 1fr">
+    <div class="card" style="padding:6px 10px" id="termSheet"></div>
+    <div class="row" style="align-content:start;gap:12px">
+      <div class="row" style="grid-template-columns:1fr" id="bondCards"></div>
+      <div class="card txt"><h3>Premium or discount, and why</h3><div id="bondWhy"></div></div>
+    </div>
+  </div>
+  <div class="src" id="sBond"></div>
+</section>
+
+<!-- 3 MARKET DATA -->
+<section class="slide" data-title="Yield Curves & Spot">
+  <div class="eyebrow">02 | Market Data: Scenario 0</div>
+  <h2 id="hMkt"></h2><div class="rule" style="margin-bottom:12px"></div>
+  <div class="row" style="grid-template-columns:1fr 1fr;margin-bottom:12px">
+    <div class="card chartcard" id="chBR"></div>
+    <div class="card chartcard" id="chUS"></div>
+  </div>
+  <div class="row" style="grid-template-columns:170px 1fr">
+    <div class="card stat"><div class="k">USD/BRL spot S₀</div><div class="v" id="s0Card"></div><div class="k" style="text-transform:none;letter-spacing:0;margin-top:2px">Scenario 0 spot</div></div>
+    <div class="card" style="padding:6px 10px" id="yieldTable"></div>
+  </div>
+  <div class="src" id="sMkt"></div>
+</section>
+
+<!-- 4 LOCAL PRICING -->
+<section class="slide" data-title="Local Currency Pricing & YTM">
+  <div class="eyebrow">03 | Local Currency Pricing &amp; YTM</div>
+  <h2 id="hLocal"></h2><div class="rule"></div>
+  <div class="row" style="grid-template-columns:660px 1fr">
+    <div class="card" style="padding:6px 10px" id="localTable"></div>
+    <div class="row" style="align-content:start">
+      <div class="row" style="grid-template-columns:1fr 1fr" id="localCards"></div>
+      <div class="card txt"><h3>Proceeds vs. face value at maturity</h3><div id="localProceeds"></div></div>
+    </div>
+  </div>
+  <div class="src" id="sLocal"></div>
+</section>
+
+<!-- 5 USD / IRP -->
+<section class="slide" data-title="USD Pricing via IRP Forwards">
+  <div class="eyebrow">04 | USD Pricing via IRP Forwards</div>
+  <h2 id="hUsd"></h2><div class="rule"></div>
+  <div class="row" style="grid-template-columns:770px 1fr">
+    <div class="card" style="padding:6px 10px" id="usdTable"></div>
+    <div class="row" style="align-content:start">
+      <div class="row" style="grid-template-columns:1fr 1fr" id="usdCards"></div>
+      <div class="card txt"><h3>IRP identity</h3><span class="eq">USD price = Local price / S₀</span><div style="margin-top:8px" id="usdCheck"></div></div>
+      <div class="card txt"><h3>USD YTM</h3><div id="usdYtm"></div></div>
+    </div>
+  </div>
+  <div class="src" id="sUsd"></div>
+</section>
+
+<!-- 6 FX SENSITIVITY -->
+<section class="slide" data-title="FX Sensitivity Analysis">
+  <div class="eyebrow">05 | FX Sensitivity Analysis</div>
+  <h2 id="hFx"></h2><div class="rule" style="margin-bottom:12px"></div>
+  <div class="row" style="grid-template-columns:repeat(4,1fr);margin-bottom:12px" id="fxCards"></div>
+  <div class="row" style="grid-template-columns:520px 1fr">
+    <div class="card" style="padding:6px 10px" id="sensTable"></div>
+    <div class="row" style="align-content:start;gap:8px;font-size:12px">
+      <div class="card txt"><h3>(f) Without forwards: translate at the new spot</h3><div id="fxA"></div></div>
+      <div class="card txt"><h3>(g) With IRP forwards: recompute at the new spot</h3><div id="fxB"></div></div>
+      <div class="card txt"><h3>Why both methods agree</h3><div id="fxWhy"></div></div>
+      <div class="card sowhat txt"><h3>What this means for Citi</h3><div id="fxTie"></div></div>
+    </div>
+  </div>
+  <div class="src" id="sFx"></div>
+</section>
+
+<!-- 7 SOURCES -->
+<section class="slide" data-title="References" data-part="all">
+  <div class="eyebrow">Sources</div>
+  <h2 style="min-height:0">References</h2><div class="rule"></div>
+  <div class="allrefs" id="refList"></div>
+</section>
+</div>
+
+<div class="foot">
+  <span id="footL">Citi in Brazil | Deliverable 2</span>
+  <div class="dots" id="dots"></div>
+  <div class="ctl"><span id="count"></span><button id="fs" title="Fullscreen (F)">⛶</button><button id="pv" aria-label="Previous">←</button><button id="nx" aria-label="Next">→</button></div>
+</div>
+
+<script>
+/* ===== Part 1 render ===== */
+(()=>{
+const $=id=>document.getElementById(id);
+const MEMBERS=["Mariana González Franco | TEC Monterrey","Bernardo Medina Ruiz | TEC Monterrey","Nicolás Moguel Lee | TEC Monterrey","Sofia Gaeta Garcia | University of San Diego","Ariene Price | University of San Diego","Isabella Kennison | University of San Diego"];
+$("p1_members").innerHTML=MEMBERS.map(m=>{const [a,u]=m.split(" | ");return `<div><b>${a}</b><br>${u}</div>`}).join("");
+function bars(id,labels,vals,o={}){
+  const W=o.w||340,H=o.h||150,L=6,B=26,T=18,max=Math.max(...vals)*1.14,bw=(W-L*2)/vals.length;
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="color:var(--ink);display:block">`;
+  vals.forEach((v,i)=>{const h=(H-B-T)*v/max,x=L+i*bw+bw*.17,w=bw*.66,y=H-B-h,hl=Array.isArray(o.hl)?o.hl.includes(i):o.hl===i;
+    s+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${hl?(o.hlc||"#0a4ea3"):"#9aa8c0"}"/><text x="${x+w/2}" y="${y-5}" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor">${o.fmt?o.fmt(v):v}</text><text x="${x+w/2}" y="${H-B+14}" text-anchor="middle" font-size="10.5" fill="currentColor" opacity=".75">${labels[i]}</text>`});
+  $(id).innerHTML=s+"</svg>";
+}
+function gbars(id,labels,a,b,na,nb,o={}){
+  const W=o.w||340,H=o.h||150,L=6,B=26,T=24,max=Math.max(...a,...b)*1.15,bw=(W-L*2)/labels.length;
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="color:var(--ink);display:block"><rect x="${W-150}" y="2" width="9" height="9" fill="#9aa8c0"/><text x="${W-137}" y="10" font-size="10" fill="currentColor">${na}</text><rect x="${W-72}" y="2" width="9" height="9" fill="#0f8a5f"/><text x="${W-59}" y="10" font-size="10" fill="currentColor">${nb}</text>`;
+  labels.forEach((l,i)=>{[[a[i],"#9aa8c0",0],[b[i],"#0f8a5f",1]].forEach(([v,c,k])=>{const h=(H-B-T)*v/max,x=L+i*bw+bw*.1+k*bw*.4,w=bw*.38,y=H-B-h;
+    s+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${c}"/><text x="${x+w/2}" y="${y-4}" text-anchor="middle" font-size="10" font-weight="700" fill="currentColor">${o.fmt?o.fmt(v):v}</text>`});
+    s+=`<text x="${L+i*bw+bw/2}" y="${H-B+14}" text-anchor="middle" font-size="10.5" fill="currentColor" opacity=".8">${l}</text>`});
+  $(id).innerHTML=s+"</svg>";
+}
+const tbl=(id,head,rows,o={})=>{$(id).innerHTML="<table><thead><tr>"+head.map((h,i)=>`<th class="${(o.left||[0]).includes(i)?"l":""}">${h}</th>`).join("")+"</tr></thead><tbody>"+rows.map(r=>`<tr class="${o.hl&&r[0]===o.hl?"hl":""}">`+r.map((c,i)=>`<td class="${(o.left||[0]).includes(i)?"l":""}">${c}</td>`).join("")+"</tr>").join("")+"</tbody></table>"};
+
+/* market position */
+bars("p1_credit",["2024","2025","2026e","2027e"],[11.5,10.3,9.1,8.8],{hl:[0,1],w:520,h:200,fmt:v=>v.toFixed(1)});
+/* financials (10-K) */
+tbl("p1_fin",["USD millions","FY2023","FY2024","FY2025"],[
+ ["Revenue (net of interest expense)","78,066","80,722","85,225"],["Net income","9,228","12,682","14,306"],
+ ["Total assets","2,411,834","2,352,945","2,657,202"],["Stockholders' equity","205,453","208,598","212,291"],
+ ["Long-term debt","286,619","287,300","315,827"],["Return on average assets","0.38%","0.51%","0.54%"],
+ ["Efficiency ratio","71.7","66.4","64.7"],["CET1 capital ratio","13.37%","13.63%","13.18%"],
+ ["Net interest margin","2.46%","2.40%","2.47%"],["Operating cash flow","-73,416","-19,669","-67,632"]]);
+gbars("p1_rev",["FY2023","FY2024","FY2025"],[78066,80722,85225],[9228,12682,14306],"Revenue","Net income",{w:500,h:210,fmt:v=>(v/1000).toFixed(1)+"k"});
+/* peers */
+tbl("p1_peer",["FY2025","Profit margin","D/E","ROA","Efficiency","CET1"],[
+ ["Bank of America","26.98%","1.21x","0.89%","61.6","11.4%"],["Goldman Sachs","29.48%","2.84x","0.94%","64.4","4.5%"],
+ ["Wells Fargo","25.49%","1.010x","1.07%","66","10.61%"],["Citi","16.79%","1.732x","0.54%","64.7","13.18%"]],{hl:"Citi"});
+const PN=["BofA","Goldman","Wells","Citi"];
+bars("p1_pm",PN,[26.98,29.48,25.49,16.79],{hl:3,h:140,fmt:v=>v.toFixed(1)});
+bars("p1_cet",PN,[11.4,4.5,10.61,13.18],{hl:3,hlc:"#0f8a5f",h:140,fmt:v=>v.toFixed(1)});
+bars("p1_roa",PN,[0.89,0.94,1.07,0.54],{hl:3,h:140,fmt:v=>v.toFixed(2)});
+bars("p1_de",PN,[1.21,2.84,1.01,1.732],{hl:3,h:140,fmt:v=>v.toFixed(2)});
+/* rates and inflation */
+bars("p1_selic",["Sep 2026","Dec 2026e","2027e","2029e"],[13.75,13.5,12,10],{hl:0,hlc:"#0f8a5f",w:520,h:180,fmt:v=>v.toFixed(2)});
+bars("p1_infl",["Aug 2026","Ceiling","Dec 2026e","June 2027e"],[4.22,4.5,4.9,4.5],{hl:[0,2],hlc:"#c0392b",w:520,h:180,fmt:v=>v.toFixed(2)});
+/* country risk */
+tbl("p1_risk",["Risk source","Level","Key metric"],[
+ ["Fiscal sustainability &amp; debt",'<span class="tag High">High</span>',"Debt/GDP above 80%; 10Y yield 14.20%"],
+ ["Inflation reacceleration",'<span class="tag Moderate">Moderate</span>',"CPI to 4.9% by Dec. 2026; real Selic 9.53%"],
+ ["Global demand &amp; commodities",'<span class="tag Moderate">Moderate</span>',"GDP growth ~2.00% a year; commodity dependence"],
+ ["Regulatory &amp; ESG transition",'<span class="tag Moderate">Moderate</span>',"Tax reform; ESG and climate trade standards"],
+ ["External solvency &amp; liquidity",'<span class="tag Low">Low</span>',"Reserves 123.97% of imports; FDI ~$80B a year"]],{left:[0,1,2]});
+bars("p1_cds",["1Y","2Y","3Y","5Y","7Y","10Y"],[51.1,63.5,80.8,122.9,162.8,203.1],{hl:5,hlc:"#c0392b",h:170,fmt:v=>v.toFixed(0)});
+/* why local debt */
+tbl("p1_map",["If the real weakens","Effect on Citi in USD"],[
+ ["Brazilian earnings (BRL inflows)",'<b style="color:#c0392b">Fall</b> in USD value'],
+ ["Brazilian net assets",'<b style="color:#c0392b">Fall</b> in USD value'],
+ ["BRL bond: coupons and principal",'<b style="color:#0f8a5f">Fall</b> in USD cost'],
+ ["<b>Net exposure</b>","<b>Smaller: the liability offsets the assets</b>"]],{left:[0,1]});
+/* sources */
+const REFS=["Citigroup Inc. (2024, 2025, 2026). <i>Forms 10-K for the fiscal years ended December 31, 2023, 2024 and 2025</i>. U.S. Securities and Exchange Commission.",
+"TRADING ECONOMICS. (n.d.). <i>Brazil inflation rate</i>. https://tradingeconomics.com/brazil/inflation-cpi",
+"TRADING ECONOMICS. (n.d.). <i>Brazil interest rate</i>. https://tradingeconomics.com/brazil/interest-rate",
+"<i>Brazil government bonds - Investing.com</i>. (n.d.). Investing.com. https://www.investing.com/rates-bonds/brazil-government-bonds?maturity_from=90&maturity_to=180",
+"IMF (July 2026) <i>2026 ARTICLE IV CONSULTATION—PRESS RELEASE; STAFF REPORT; AND STATEMENT BY THE EXECUTIVE DIRECTOR FOR BRAZIL. imf.org.</i> https://www.imf.org/-/media/files/publications/cr/2026/english/1braea2026001.pdf",
+"Alza de tasa neutral de Brasil dificulta trabajo al banco central. (2021, December 16). <i>Bloomberg Línea</i>. https://www.bloomberglinea.com/2021/12/16/alza-de-tasa-neutral-de-brasil-dificulta-trabajo-al-banco-central/",
+"Campos, R., &amp; Laier, P. (2026, August 26). <i>Brazil vote offers opposing politics, similar fiscal outcomes</i>. Reuters. https://www.reuters.com/world/americas/brazil-vote-offers-opposing-politics-similar-fiscal-outcomes-2026-08-26/",
+"<i>Tax Reform in Brazil: Impact on Electronic Invoicing| EDICOM</i>. (2026). Edicomgroup.Com. https://edicomgroup.com/blog/brazil-tax-reform",
+"THE ECONOMISTS WHO PARTICIPATED IN THIS ARTICLE, &amp; Salim HAMMAD Team : Data and Analytics Team. (2026). <i>Brazil: Caught between two currents</i>. Economic-Research.Bnpparibas.Com. https://economic-research.bnpparibas.com/html/en-US/Brazil-Caught-currents-3/6/2026,53282?Lang=en-US&amp;docid=53282",
+"Reuters. (2026, August 27). <i>Brazil’s July current account deficit widens well beyond forecasts to 7-year high</i>. Reuters. https://www.reuters.com/world/americas/brazils-july-current-account-deficit-widens-well-beyond-forecasts-7-year-high-2026-08-27/"];
+window.P1_REFS=REFS;
+/* stretch each slide's main grid down to its takeaway bar */
+document.querySelectorAll(".p1s").forEach(s=>{const f=s.querySelector(".fill"),tk=s.querySelector(".tk");if(f&&tk)f.style.setProperty("--fillh",(tk.offsetTop-f.offsetTop-14)+"px")});
+})();
+
+/* =====================================================================
+   INPUTS (Scenario 0, per Market Data Excel).
+   Change a value and every slide recalculates.
+   ===================================================================== */
+const COMPANY={name:"Citigroup (Citi)",ticker:"C",country:"Brazil"};
+const MEMBERS=["Mariana González Franco | TEC Monterrey","Bernardo Medina Ruiz | TEC Monterrey","Nicolás Moguel Lee | TEC Monterrey","Sofia Gaeta Garcia | University of San Diego","Ariene Price | University of San Diego","Isabella Kennison | University of San Diego"];
+
+const CURVE=[ // t (years), i_BRL %, i_USD %  (Scenario 0)
+
+ [0.5,9.00,4.10],[1,8.85,3.95],[1.5,8.70,3.85],[2,8.60,3.80],[2.5,8.50,3.75],
+ [3,8.40,3.72],[3.5,8.35,3.72],[4,8.30,3.70],[4.5,8.25,3.68],[5,8.20,3.65]];
+const BOLD=[1.5,2.5,3.5,4.5];   // rows shown in bold in the spreadsheet
+const INPUT={S0:5.35, shock:0.10, coupon:0.10, refFace:100, faceShare:0.10, paymentsPerYear:2, maturity:5};   // bond terms from the pricing sheet (face = reference face value in BRL)
+
+const BOND={ltDebtUSDm:333750, ltDebtSource:"PC1 balance sheet metrics, June 30, 2026"};   // total LT debt (USD millions) as used in the team Excel
+const FACE=BOND.ltDebtUSDm*INPUT.faceShare*INPUT.S0;   // face value in BRL millions
+const SRC={
+ bond:"Total LT debt of $333,750 million as of June 30, 2026 (PC1 balance sheet metrics). Bond terms from the team pricing spreadsheet; pricing at the Scenario 0 yield curve (team calculations)",
+ mkt:"Scenario 0 yield curves for the United States and Brazil and USD/BRL spot of 5.35, per Market Data Excel.",
+ local:"Scenario 0 BRL yield curve and S₀; cash flows per R$100 of face value; team calculations",
+ usd:"Scenario 0 yield curves and S₀. IRP: F(t) = S₀ × (1 + i_BRL/2)^2t / (1 + i_USD/2)^2t, with BRL as the quote currency",
+ fx:"Team calculations; Scenario 0 yield curves and S₀"};
+const REFS_10K=["Total LT debt of $333.75 billion as of June 30, 2026 (PC1, Business Overview balance sheet metrics)."];
+
+/* ---------- maths ---------- */
+function ytm(cfs,price){const f=r=>cfs.reduce((s,c,i)=>s+c/Math.pow(1+r,i+1),0)-price;let lo=-.5,hi=1;for(let i=0;i<200;i++){const m=(lo+hi)/2;f(m)>0?lo=m:hi=m}return (lo+hi)/2*2}
+function calc(){
+  const S0=INPUT.S0,S1=S0*(1-INPUT.shock),cpn=FACE*INPUT.coupon/2;
+  const rows=CURVE.map(([t,iq,ib],i)=>{const kq=Math.pow(1+iq/200,2*t),kb=Math.pow(1+ib/200,2*t),k=kq/kb,cf=cpn+(i===9?FACE:0);
+    return {t,iq,ib,kq,kb,F:S0*k,F1:S1*k,cf,pvq:cf/kq}});
+  rows.forEach(r=>{r.usd=r.cf/r.F;r.pvu=r.usd/r.kb;r.usd1=r.cf/r.F1;r.pvu1=r.usd1/r.kb});
+  const sum=k=>rows.reduce((s,r)=>s+r[k],0);
+  const R={rows,S0,S1,priceBRL:sum("pvq"),priceUSD:sum("pvu"),priceB:sum("pvu1")};
+  R.priceA=R.priceBRL/S1;R.ytmBRL=ytm(rows.map(r=>r.cf),R.priceBRL);R.ytmUSD=ytm(rows.map(r=>r.usd),R.priceUSD);R.ytmUSD1=ytm(rows.map(r=>r.usd1),R.priceB);
+  return R;
+}
+
+/* ---------- render ---------- */
+const $=id=>document.getElementById(id);
+const dash=v=>v===null||v===undefined||v===""?'<span class="ph">—</span>':v;
+const ph=(id,v,msg="[Team analysis]")=>{$(id).innerHTML=v?v:`<span class="ph">${msg}</span>`};
+const stat=(k,v)=>`<div class="card stat"><div class="k">${k}</div><div class="v">${dash(v)}</div></div>`;
+const n=(v,d=2)=>v.toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:d});
+const pc=(v,d=2)=>n(v*100,d)+"%";
+const table=(id,head,rows,tot)=>{$(id).innerHTML="<table><thead><tr>"+head.map(h=>`<th>${h}</th>`).join("")+"</tr></thead><tbody>"+rows.map(r=>"<tr>"+r.map(c=>`<td>${c}</td>`).join("")+"</tr>").join("")+(tot?"<tr class='tot'>"+tot.map(c=>`<td>${c}</td>`).join("")+"</tr>":"")+"</tbody></table>"};
+const head=(id,v)=>{$(id).innerHTML=v?v:'<span class="ph">[Action title]</span>'};
+const src=(id,v)=>{$(id).textContent=v?(id==="sMkt"?"":"Source: ")+v:""};
+
+const R=calc(),P=R.priceBRL<FACE?"Discount":"Premium",chg=R.priceA/R.priceUSD-1;
+const yMin=Math.min(...CURVE.map(c=>c[1])),yMax=Math.max(...CURVE.map(c=>c[1]));
+const mm=v=>n(v,1);
+
+$("coName").textContent=COMPANY.name;$("coTicker").textContent=COMPANY.ticker;$("coCountry").textContent=COMPANY.country;
+$("members").innerHTML=MEMBERS.map(m=>{const [a,u]=m.split(" | ");return `<div><b>${a}</b><br>${u}</div>`}).join("");
+
+/* 2 bond issuance */
+const faceUSD=BOND.ltDebtUSDm*INPUT.faceShare, faceBRL=FACE;
+const trow=(k,v)=>`<tr><td>${k}</td><td>${v===null||v===""?'<span class="ph">—</span>':v}</td></tr>`;
+$("termSheet").innerHTML="<table><thead><tr><th>Bond terms</th><th>Value</th></tr></thead><tbody>"+
+  trow("Total LT debt (USD millions)",BOND.ltDebtUSDm!==null?n(BOND.ltDebtUSDm,0):null)+
+  trow("PC1 debt source / reporting date",BOND.ltDebtSource)+
+  trow("Face value share of LT debt",pc(INPUT.faceShare))+
+  trow("Spot (BRL per USD)",n(INPUT.S0,2))+
+  trow("Annual coupon",pc(INPUT.coupon))+
+  trow("Payments per year",INPUT.paymentsPerYear)+
+  trow("Maturity (years)",INPUT.maturity)+
+  trow("Number of payments",INPUT.paymentsPerYear*INPUT.maturity)+
+  trow("Face value (USD millions)",faceUSD!==null?n(faceUSD,1):null)+
+  trow("Face value (BRL millions)",faceBRL!==null?n(faceBRL,1):null)+
+  trow("Coupon (BRL millions)",faceBRL!==null?n(faceBRL*INPUT.coupon/INPUT.paymentsPerYear,1):null)+
+  trow("Reference face value (BRL)",INPUT.refFace)+"</tbody></table>";
+head("hBond",`A ${INPUT.maturity}-year BRL bond with a ${n(INPUT.coupon*100,0)}% semiannual coupon trades at a ${P.toLowerCase()}: ${pc(R.priceBRL/FACE)} of face`);
+$("bondCards").innerHTML=stat("Premium / discount",P);
+const cp=INPUT.coupon*100,rel=cp>yMax?"above every":cp<yMin?"below every":"in the range of the",verb=P==="Premium"?"exceeds":"is under";
+ph("bondWhy",`The ${n(cp,0)}% coupon is ${rel} maturity-matched BRL yield on the Scenario 0 curve (${n(yMin)}%–${n(yMax)}%), so the present value of the cash flows ${verb} face and the bond sells at a ${P.toLowerCase()} (${pc(R.priceBRL/FACE,1)} of face).`);
+
+src("sBond",SRC.bond);
+
+/* 3 market data */
+const sp=CURVE.map(c=>c[1]-c[2]);head("hMkt",`BRL yields sit ${n(Math.min(...sp),1)} to ${n(Math.max(...sp),1)} points above USD yields across the curve, which is what drives the forward rates`);
+$("s0Card").textContent=n(INPUT.S0,2);
+$("yieldTable").innerHTML="<table><thead><tr><th>t (years)</th>"+CURVE.map(c=>`<th>${c[0]}</th>`).join("")+"</tr></thead><tbody>"+
+ "<tr><td>i_BRL (quote)</td>"+CURVE.map(c=>`<td>${BOLD.includes(c[0])?"<b>"+n(c[1])+"%</b>":n(c[1])+"%"}</td>`).join("")+"</tr>"+"<tr><td>i_USD (base)</td>"+CURVE.map(c=>`<td>${BOLD.includes(c[0])?"<b>"+n(c[2])+"%</b>":n(c[2])+"%"}</td>`).join("")+"</tr></tbody></table>";
+src("sMkt",SRC.mkt);
+function lineChart(id,title,sub,vals,col,flag){
+  const W=560,H=300,L=50,Rt=22,T=70,B=42,lo=Math.min(...vals),hi=Math.max(...vals),pad=(hi-lo)*.25||.2,y0=lo-pad,y1=hi+pad;
+  const X=i=>L+(W-L-Rt)*i/(vals.length-1),Y=v=>T+(H-T-B)*(1-(v-y0)/(y1-y0));
+  let g="";for(let k=0;k<=4;k++){const v=y0+(y1-y0)*k/4;g+=`<line x1="${L}" x2="${W-Rt}" y1="${Y(v)}" y2="${Y(v)}" stroke="currentColor" opacity=".12"/><text x="${L-8}" y="${Y(v)+4}" text-anchor="end" font-size="11" fill="currentColor" opacity=".6">${v.toFixed(2)}%</text>`}
+  const pts=vals.map((v,i)=>`${X(i)},${Y(v)}`).join(" ");
+  $(id).innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="color:var(--ink);display:block"><text x="${W/2}" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">${flag} ${title}</text><text x="${W/2}" y="46" text-anchor="middle" font-size="12" font-style="italic" fill="currentColor" opacity=".7">${sub}</text>${g}`+
+   `<polyline points="${pts}" fill="none" stroke="${col}" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>`+
+   vals.map((v,i)=>`<circle cx="${X(i)}" cy="${Y(v)}" r="4" fill="${col}"/><text x="${X(i)}" y="${Y(v)-10}" text-anchor="middle" font-size="10.5" fill="currentColor">${v.toFixed(2)}</text><text x="${X(i)}" y="${H-B+18}" text-anchor="middle" font-size="11" fill="currentColor" opacity=".7">${CURVE[i][0]}Y</text>`).join("")+
+   `<text x="${W/2}" y="${H-4}" text-anchor="middle" font-size="11" fill="currentColor" opacity=".6">Maturity</text></svg>`;
+}
+lineChart("chBR","BRAZIL YIELD CURVE","Scenario 0 | BRL (%)",CURVE.map(c=>c[1]),"#0f8a5f","🇧🇷");
+lineChart("chUS","UNITED STATES YIELD CURVE","Scenario 0 | USD (%)",CURVE.map(c=>c[2]),"#0a4ea3","🇺🇸");
+
+
+/* 4 local pricing */
+head("hLocal",`Discounting a ${n(INPUT.coupon*100,0)}% coupon at BRL yields of ${n(yMin)}%–${n(yMax)}% prices the bond at BRL ${mm(R.priceBRL)}m (${pc(R.priceBRL/FACE)} of face), for a YTM of ${pc(R.ytmBRL)}`);
+table("localTable",["t","i_BRL","BRL CF (m)","Discount factor","PV (BRL m)"],R.rows.map(r=>[r.t,n(r.iq)+"%",mm(r.cf),n(1/r.kq,4),mm(r.pvq)]),["","","","Price",mm(R.priceBRL)]);
+$("localCards").innerHTML=stat("Price (BRL m)",mm(R.priceBRL))+stat("YTM (BRL)",pc(R.ytmBRL));
+ph("localProceeds",P==="Premium"?`Citi would receive BRL ${mm(R.priceBRL)}m today (${pc(R.priceBRL/FACE)} of the BRL ${mm(FACE)}m face) but repay only BRL ${mm(FACE)}m at maturity. The BRL ${mm(R.priceBRL-FACE)}m gap is the premium: investors pay more today for a coupon above market yields, which pulls the YTM (${pc(R.ytmBRL)}) below the ${n(INPUT.coupon*100,0)}% coupon.`:`Citi would receive BRL ${mm(R.priceBRL)}m today (${pc(R.priceBRL/FACE)} of the BRL ${mm(FACE)}m face) but repay BRL ${mm(FACE)}m at maturity. The BRL ${mm(FACE-R.priceBRL)}m gap is the discount: extra return for investors on top of the ${n(INPUT.coupon*100,0)}% coupon, which lifts the YTM to ${pc(R.ytmBRL)}.`);
+src("sLocal",SRC.local);
+
+/* 5 USD via IRP */
+head("hUsd",`Hedged with IRP forwards, the bond is worth USD ${mm(R.priceUSD)}m and yields ${pc(R.ytmUSD)} in dollars`);
+table("usdTable",["t","i_BRL","i_USD","(1+iq/2)^2t","(1+ib/2)^2t","F(t)","USD CF (m)","PV (USD m)"],R.rows.map(r=>[r.t,n(r.iq)+"%",n(r.ib)+"%",n(r.kq),n(r.kb),n(r.F),mm(r.usd),mm(r.pvu)]),["","","","","","","Price",mm(R.priceUSD)]);
+$("usdCards").innerHTML=stat("USD price (m)","$"+mm(R.priceUSD))+stat("USD YTM",pc(R.ytmUSD));
+ph("usdYtm",`The YTM implied by the hedged USD cash flows is ${pc(R.ytmUSD)}, compared with ${pc(R.ytmBRL)} in BRL. The difference is the interest rate gap between Brazil and the U.S.`);
+ph("usdCheck",`(${mm(R.priceBRL)}M / ${n(R.S0,2)}) = USD ${mm(R.priceBRL/R.S0)}M = USD price, so the IRP identity holds (difference ${n(R.priceUSD-R.priceBRL/R.S0,6)}).`);
+src("sUsd",SRC.usd);
+
+/* 6 sensitivity */
+head("hFx",`A ${n(INPUT.shock*100,0)}% BRL appreciation lifts the bond's USD price by ${pc(chg)}, by either method`);
+$("fxCards").innerHTML=stat("New spot S₁",n(R.S1,3))+stat("(f) USD price (m)",mm(R.priceA))+stat("(g) USD price (m)",mm(R.priceB))+stat("Change vs. base",pc(chg));
+table("sensTable",["t","F(t) base","F(t) new","USD CF (m)","USD CF new (m)","PV new (USD m)"],R.rows.map(r=>[r.t,n(r.F),n(r.F1),mm(r.usd),mm(r.usd1),mm(r.pvu1)]),["","","","","Price",mm(R.priceB)]);
+ph("fxA",`If the BRL appreciates ${n(INPUT.shock*100,0)}%, the spot falls from ${n(R.S0,2)} to ${n(R.S1,3)}. The BRL price does not change, so the new USD price is ${mm(R.priceBRL)}M / ${n(R.S1,3)} = <b>USD ${mm(R.priceA)}M (+${pc(chg)})</b>.`);
+ph("fxB",`Using the new spot, all forwards fall by ${n(INPUT.shock*100,0)}%, from ${n(R.rows[0].F1)} at 0.5 years to ${n(R.rows[9].F1)} at 5 years. Converting the cash flows and discounting at U.S. yields gives the same <b>USD ${mm(R.priceB)}M (+${pc(R.priceB/R.priceUSD-1)})</b>.`);
+ph("fxWhy",`Under IRP, each forward equals the spot times a factor that depends only on interest rates. If only the spot changes, all forwards move by the same percentage, so both methods give the same result. The change is ${pc(chg)} and not ${n(INPUT.shock*100,0)}% because 1/${n(1-INPUT.shock,1)} − 1 = ${pc(chg)}. For Citi, a stronger BRL makes its debt ${pc(chg)} more expensive in dollars, which is the risk the forward hedge removes.`);
+ph("fxTie",`The USD price moves at the same rate as the real's appreciation, with no impact from interest rates. Due to Citi being a receiver of Reals, a lower local currency impacts local earnings and bond dollar cost. A forward hedge gives back ${n(CURVE[9][1],1)}% against the ${n(CURVE[9][2])}% rate gap.`);src("sFx",SRC.fx);
+
+/* 7 sources */
+$("refList").innerHTML="<h3>Part 1: Company &amp; country risk</h3>"+window.P1_REFS.map(r=>`<p>${r}</p>`).join("")+"<div class='grp'><h3>Part 2: Bond issuance</h3>"+REFS_10K.map(r=>`<p>${r}</p>`).join("")+"<p>Scenario 0 yield curves for the United States and Brazil (0.5Y to 5.0Y) and USD/BRL spot of 5.35, per Market Data Excel.</p></div>";
+
+/* ---------- deck engine ---------- */
+const slides=[...document.querySelectorAll(".slide")],stage=$("stage");let cur=0;
+function fit(){const s=Math.min(innerWidth/1280,(innerHeight-52)/720);stage.style.transform=`translate(${(innerWidth-1280*s)/2}px,${Math.max(0,(innerHeight-52-720*s)/2)}px) scale(${s})`}
+addEventListener("resize",fit);fit();
+$("dots").innerHTML=slides.map((s,i)=>`<button data-i="${i}" title="${s.dataset.title}" aria-label="${s.dataset.title}"></button>`).join("");
+function go(i,push=true){
+  cur=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,k)=>{s.classList.toggle("on",k===cur);s.classList.toggle("past",k<cur)});
+  document.querySelectorAll("#dots button").forEach((b,k)=>b.classList.toggle("on",k===cur));
+  $("count").textContent=String(cur+1).padStart(2,"0")+" / "+String(slides.length).padStart(2,"0");
+  $("bar").style.width=((cur+1)/slides.length*100)+"%";
+  document.body.classList.toggle("dark",slides[cur].classList.contains("cover"));$("footL").textContent="Citi in Brazil | "+({"1":"Deliverable 1","all":"FINA 405"}[slides[cur].dataset.part]||"Deliverable 2");
+  if(push)history.replaceState(null,"","#"+(cur+1));
+}
+$("pv").onclick=()=>go(cur-1);$("nx").onclick=()=>go(cur+1);
+$("dots").onclick=e=>{if(e.target.dataset.i)go(+e.target.dataset.i)};
+$("fs").onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
+addEventListener("keydown",e=>{
+  if(["ArrowRight","PageDown"," "].includes(e.key)){e.preventDefault();go(cur+1)}
+  else if(["ArrowLeft","PageUp"].includes(e.key)){e.preventDefault();go(cur-1)}
+  else if(e.key==="Home")go(0);else if(e.key==="End")go(slides.length-1);
+  else if(e.key==="f"||e.key==="F")$("fs").click();
+});
+let x0=null;addEventListener("touchstart",e=>x0=e.touches[0].clientX,{passive:true});
+addEventListener("touchend",e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>60)go(cur+(d<0?1:-1));x0=null});
+go((parseInt(location.hash.slice(1))||1)-1,false);
+</script>
+</body>
+</html>
